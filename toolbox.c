@@ -17,13 +17,67 @@ void ft_error(void)
 	perror("Error");
 	exit(EXIT_FAILURE);
 }
-
-int	ft_putstr_fd(char *s, int fd)
+//arg = "ls"
+//F_OK tests for the existence of the file.
+void ft_free_double(char **str)
 {
 	int i;
 
 	i = 0;
-	while(s[i])
-		write(fd, &s[i++], sizeof(char));
-	return(i);
+	while(str[i])
+		free(str[i++]);
+	free(str);
+}
+char	*find_path(char *cmd, char **envp)
+{
+	char **paths;
+	char *path_begin;
+	char *path;
+	int i;
+
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		path_begin = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(path_begin, cmd);
+		free(path_begin);
+		if (access(path, F_OK) == 0)
+		{
+			ft_free_double(paths);
+			return (path);
+		}
+		free(path);
+		i++;
+	}
+	ft_free_double(paths);
+	return(NULL);
+}
+//split puts an \0 at the end of cmd
+//*path = "/bin/ls"
+//**cmd = {ls, "-l", NULL}
+//ENOENT 2 No such file or directory
+void	ft_execute(char *argv, char **envp)
+{
+	char **cmd;
+	char *path;
+	int i;
+
+	cmd = ft_split(argv, ' ');
+	path = find_path(cmd[0], envp);
+	if (!path)
+	{
+		ft_free_double(cmd);
+		errno = ENOENT;
+		ft_error();
+	}
+	if (execve(path, cmd, envp) == -1)
+	{
+		free(path);
+		ft_free_double(cmd);
+		ft_error();
+	}
 }
