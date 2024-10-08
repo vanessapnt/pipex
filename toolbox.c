@@ -6,7 +6,7 @@
 /*   By: varodrig <varodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:32:10 by varodrig          #+#    #+#             */
-/*   Updated: 2024/10/06 16:26:26 by varodrig         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:14:14 by varodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	ft_execute(char *argv, char **envp)
 {
 	char **cmd;
 	char *path;
-	int i;
 
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);

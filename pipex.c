@@ -6,7 +6,7 @@
 /*   By: varodrig <varodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:30:37 by varodrig          #+#    #+#             */
-/*   Updated: 2024/10/06 17:13:39 by varodrig         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:42:40 by varodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	parent_process(char **argv, int *fd, char **envp)
 	dup2(file2, STDOUT_FILENO);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	ft_execute(argv[3]);
+	ft_execute(argv[3], envp);
 }
 
 // pipe between cmd1 et cmd2
