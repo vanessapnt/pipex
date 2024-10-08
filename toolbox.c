@@ -6,34 +6,36 @@
 /*   By: varodrig <varodrig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:32:10 by varodrig          #+#    #+#             */
-/*   Updated: 2024/10/08 12:14:14 by varodrig         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:05:34 by varodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void ft_error(void)
+void	ft_error(void)
 {
 	perror("Error");
 	exit(EXIT_FAILURE);
 }
+
 //arg = "ls"
 //F_OK tests for the existence of the file.
-void ft_free_double(char **str)
+void	ft_free_double(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		free(str[i++]);
 	free(str);
 }
+
 char	*find_path(char *cmd, char **envp)
 {
-	char **paths;
-	char *path_begin;
-	char *path;
-	int i;
+	char	**paths;
+	char	*path_begin;
+	char	*path;
+	int		i;
 
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
@@ -54,16 +56,17 @@ char	*find_path(char *cmd, char **envp)
 		i++;
 	}
 	ft_free_double(paths);
-	return(NULL);
+	return (NULL);
 }
+
 //split puts an \0 at the end of cmd
 //*path = "/bin/ls"
 //**cmd = {ls, "-l", NULL}
 //ENOENT 2 No such file or directory
 void	ft_execute(char *argv, char **envp)
 {
-	char **cmd;
-	char *path;
+	char	**cmd;
+	char	*path;
 
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
